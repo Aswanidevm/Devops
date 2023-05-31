@@ -10,4 +10,5 @@ curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend.z
 echo "exctacting frontend content"&>> /tmp/roboshop.log
 cd /usr/share/nginx/html &>> /tmp/roboshop.log
 unzip /tmp/frontend.zip &>> /tmp/roboshop.log
+echo "restart nginx"&>> /tmp/roboshop.log
 systemctl restart nginx &>> /tmp/roboshop.log
