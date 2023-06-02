@@ -6,7 +6,7 @@ user_id = $(id -u)
 code_dir =$(pwd)
 rm -f ${log_file}
 
-if [ ${user_id} -ne 0 ]; then
+if [ "${user_id}" -ne 0 ]; then
 echo "Script should be running with sudo"
   exit 1
 fi
@@ -71,7 +71,7 @@ systemd(){
 }
 
 schema_setup(){
-  if[ ${schema_type}=mongo];then
+  if[ "${schema_type}"=="mongo"];then
    cp ${code_dir}/config/mongo.repo /etc/yum.repos.d/mongo.repo &>> ${log_file}
    status_check $?
 
@@ -81,7 +81,7 @@ schema_setup(){
    mongo --host MONGODB-SERVER-IPADDRESS <path/schema/component.js &>> ${log_file}
    status_check $?
 
-  elif[ ${schema_type}=mysql];then
+  elif[ "${schema_type}"=="mysql"];then
 
 
 
