@@ -1,44 +1,76 @@
 color="\e[31m"
 nocolor="\e[0m"
-path= /app
+path= "/app"
+logfile= "/tmp/roboshop.log"
+user_id= $(id -u)
 
-nodejs() {
-echo -e "color Setup nodejs repo nocolor"
-curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>> /tmp/roboshop.log
-echo -e "color Install nodejs nocolor"
-yum install nodejs -y &>> /tmp/roboshop.log
+if[ $user_id -ne 0 ]; then
+echo Script should be running with sudo
+  exit 1
+fi
 
-app_prereq
-systemd
-mongod_schema
+status_check()
+{
+    if [$1 eq 0]; then 
+    echo sucess
+    else
+    echo failure
+    exit 1
+    fi 
 }
 
+
 app_prereq{
-echo -e "color Add User nocolor"
-componentadd roboshop &>> /tmp/roboshop.log
+echo -e "${color} Add User ${nocolor}"
+id roboshop &>> $logfile
+if [$? eq 1]; then
+useradd roboshop &>> $logfile
+fi
+status_check $?
 
-mkdir path  &>> /tmp/roboshop.log
+rm -rf path &>> $logfile
+mkdir path  &>> $logfile
 
-curl -L -o /tmp/component.zip https://roboshop-artifacts.s3.amazonaws.com/component.zip  &>> /tmp/roboshop.log
 
-cd path  &>> /tmp/roboshop.log
+curl -L -o /tmp/component.zip https://roboshop-artifacts.s3.amazonaws.com/component.zip  &>> $logfile
 
-unzip /tmp/component.zip &>> /tmp/roboshop.log
+cd path  &>> $logfile
 
-npm install  &>> /tmp/roboshop.log
+unzip /tmp/component.zip &>> $logfile
+
+
+}
+
 
 systemd(){
-    systemctl daemon-reload &>> /tmp/roboshop.log
+    systemctl daemon-reload &>> $logfile
 
-    systemctl enable component  &>> /tmp/roboshop.log
+    systemctl enable component  &>> $logfile
 
-    systemctl start component &>> /tmp/roboshop.log
+    systemctl start component &>> $logfile
 }
 
 mongod_schema(){
-cp mongo.repo /etc/yum.repos.d/mongo.repo &>> /tmp/roboshop.log
+cp mongo.repo /etc/yum.repos.d/mongo.repo &>> $logfile
 
-yum install mongodb-org-shell -y &>> /tmp/roboshop.log
+yum install mongodb-org-shell -y &>> $logfile
 
-mongo --host MONGODB-SERVER-IPADDRESS <path/schema/component.js &>> /tmp/roboshop.log
+mongo --host MONGODB-SERVER-IPADDRESS <path/schema/component.js &>> $logfile
 }
+
+nodejs() {
+echo -e "${color} Setup nodejs repo ${nocolor}"
+curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>> $logfile
+echo -e "${color} Install nodejs ${nocolor}"
+yum install nodejs -y &>> $logfile
+
+app_prereq
+
+npm install  &>> $logfile
+
+systemd
+
+mongod_schema
+}
+
+
