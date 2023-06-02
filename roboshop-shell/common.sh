@@ -1,7 +1,7 @@
 color="\e[31m"
 nocolor="\e[0m"
-path= "/app"
-logfile= "/tmp/roboshop.log"
+path= /app
+logfile= /tmp/roboshop.log
 user_id= $(id -u)
 code_dir=$(pwd)
 
