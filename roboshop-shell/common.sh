@@ -5,8 +5,8 @@ logfile= "/tmp/roboshop.log"
 user_id= $(id -u)
 code_dir=$(pwd)
 
-if[ $user_id -ne 0 ]; then
-echo Script should be running with sudo
+if [ ${user_id} -ne 0 ]; then
+echo "Script should be running with sudo"
   exit 1
 fi
 
