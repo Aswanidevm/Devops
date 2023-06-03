@@ -1,11 +1,10 @@
 color="\e[31m"
 nocolor="\e[0m"
-path= /app
-log_file= /tmp/roboshop.log
-user_id= $(id -u)
+path= "/app"
+log_file= "/tmp/roboshop.log"
 code_dir=$(pwd)
 rm -f ${log_file}
-
+user_id= $(id -u)
 if [ "${user_id}" -ne 0 ]; then
 echo "Script should be running with sudo"
   exit 1
