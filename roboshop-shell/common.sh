@@ -1,8 +1,8 @@
 color="\e[31m"
 nocolor="\e[0m"
 code_dir=$(pwd)
-path= "${code_dir}/app"
-log_file= "${code_dir}/tmp/roboshop.log"
+path=${code_dir}/app
+log_file=${code_dir}/tmp/roboshop.log
 rm -f ${log_file}
 user_id= $(id -u)
 if [ "${user_id}" -ne 0 ]; then
