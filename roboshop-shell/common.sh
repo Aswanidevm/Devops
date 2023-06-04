@@ -1,7 +1,5 @@
 color="\e[31m"
 nocolor="\e[0m"
-mkdir /app
-path= "/app"
 code_dir=$(pwd)
 path= "${code_dir}/app"
 log_file= "${code_dir}/tmp/roboshop.log"
