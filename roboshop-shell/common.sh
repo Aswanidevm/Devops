@@ -1,7 +1,6 @@
 color="\e[31m"
 nocolor="\e[0m"
 path= "/app"
-
 code_dir=$(pwd)
 path= "${code_dir}/app"
 log_file= "${code_dir}/tmp/roboshop.log"
@@ -48,7 +47,7 @@ app_prereq(){
   status_check $?
 
  echo -e "${color} unzip content ${nocolor}"
-  unzip /tmp/c${component}.zip &>> ${log_file}
+  unzip /tmp/${component}.zip &>> ${log_file}
   status_check $?
 }
 
@@ -72,7 +71,7 @@ systemd(){
 }
 
 schema_setup(){
-  if[ "${schema_type}"=="mongo"];then
+  if[ "${schema_type}"=="mongo"]; then
   cp ${code_dir}/config/mongo.repo /etc/yum.repos.d/mongo.repo &>> ${log_file}
   status_check $?
 
@@ -81,10 +80,6 @@ schema_setup(){
 
   mongo --host MONGODB-SERVER-IPADDRESS <path/schema/component.js &>> ${log_file}
   status_check $?
-
-  elif[ "${schema_type}"=="mysql"];then
-
-
 
   fi
 }
