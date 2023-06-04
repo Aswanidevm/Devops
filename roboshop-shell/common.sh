@@ -71,7 +71,7 @@ systemd(){
 }
 
 schema_setup(){
-  if[ "${schema_type}"=="mongo"]; then
+  if[ "${schema_type}" == "mongo" ]; then
   cp ${code_dir}/config/mongo.repo /etc/yum.repos.d/mongo.repo &>> ${log_file}
   status_check $?
 
