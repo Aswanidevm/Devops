@@ -71,14 +71,14 @@ systemd(){
 
 schema_setup(){
   if[ "${schema_type}"=="mongo"];then
-   cp ${code_dir}/config/mongo.repo /etc/yum.repos.d/mongo.repo &>> ${log_file}
-   status_check $?
+  cp ${code_dir}/config/mongo.repo /etc/yum.repos.d/mongo.repo &>> ${log_file}
+  status_check $?
 
-   yum install mongodb-org-shell -y &>> ${log_file}
-   status_check $?
+  yum install mongodb-org-shell -y &>> ${log_file}
+  status_check $?
 
-   mongo --host MONGODB-SERVER-IPADDRESS <path/schema/component.js &>> ${log_file}
-   status_check $?
+  mongo --host MONGODB-SERVER-IPADDRESS <path/schema/component.js &>> ${log_file}
+  status_check $?
 
   elif[ "${schema_type}"=="mysql"];then
 
