@@ -77,7 +77,7 @@ schema_setup(){
   yum install mongodb-org-shell -y &>> ${log_file}
   status_check $?
 
-  mongo --host MONGODB-SERVER-IPADDRESS <path/schema/component.js &>> ${log_file}
+  mongo --host MONGODB-SERVER-IPADDRESS <path/schema/${component}.js &>> ${log_file}
   status_check $?
 
   fi
