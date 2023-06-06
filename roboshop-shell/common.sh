@@ -42,7 +42,7 @@ app_prereq(){
   status_check $?
 
  echo -e "${color} open directory ${nocolor}"
-  cd path  &>> ${log_file}
+  cd path &>> ${log_file}
   status_check $?
 
  echo -e "${color} unzip content ${nocolor}"
