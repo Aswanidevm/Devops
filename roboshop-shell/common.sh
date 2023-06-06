@@ -23,18 +23,18 @@ status_check()
 
 app_prereq(){
  echo -e "${color} Add User ${nocolor}"
-  id roboshop &>> ${log_file}
-  if [$? eq 1]; then
+  id roboshop &>>${log_file}
+  if [ $? -eq 1 ]; then
     useradd roboshop &>> ${log_file}
   fi
  status_check $?
 
  echo -e "${color} remove directory ${nocolor}"
-  rm -rf path &>> ${log_file}
+  rm -rf path &>>${log_file}
   status_check $?
 
  echo -e "${color} add directory ${nocolor}"
-  mkdir path  &>> ${log_file}
+  mkdir path  &>>${log_file}
   status_check $?
 
  echo -e "${color} downloading content ${nocolor}"
