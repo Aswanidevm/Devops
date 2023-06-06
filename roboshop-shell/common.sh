@@ -30,11 +30,11 @@ app_prereq(){
  status_check $?
 
  echo -e "${color} remove directory ${nocolor}"
-  rm -rf path &>>${log_file}
+  rm -rf /app &>>${log_file}
   status_check $?
 
  echo -e "${color} add directory ${nocolor}"
-  mkdir path  &>>${log_file}
+  mkdir /app  &>>${log_file}
   status_check $?
 
  echo -e "${color} downloading content ${nocolor}"
@@ -42,7 +42,7 @@ app_prereq(){
   status_check $?
 
  echo -e "${color} open directory ${nocolor}"
-  cd path &>> ${log_file}
+  cd /app &>> ${log_file}
   status_check $?
 
  echo -e "${color} unzip content ${nocolor}"
