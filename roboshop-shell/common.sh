@@ -12,12 +12,12 @@ fi
 
 status_check()
 {
-    if [ $1 eq 0 ]; then 
+  if [ $1 eq 0 ]; then 
     echo sucess
-    else
+  else
     echo failure
     exit 1
-    fi 
+  fi 
 }
 
 
