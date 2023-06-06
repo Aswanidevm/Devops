@@ -38,7 +38,7 @@ app_prereq(){
   status_check $?
 
  echo -e "${color} downloading content ${nocolor}"
-  curl -L -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/component.zip  &>> ${log_file}
+  curl -L -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip  &>> ${log_file}
   status_check $?
 
  echo -e "${color} open directory ${nocolor}"
