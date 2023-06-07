@@ -55,6 +55,9 @@ systemd(){
   echo -e "${color} copying ${component}.service file ${nocolor}"
     cp ${code_dir}/config/${component}.service /etc/systemd/system/${component}.service &>>${log_file}
     status_check $?
+ 
+    sed -i -e "s/ROBOSHOP_USER_PASSWORD/${roboshop_app_password}/" /etc/systemd/system/${component}.service &>>${log_file}
+    status_check $?
 
   echo -e "${color} reloading ${component}.service ${nocolor}"
     systemctl daemon-reload &>> ${log_file}
@@ -116,18 +119,54 @@ nodejs() {
 java(){
   echo -e "${color} Instsll maven ${nocolor}"
   yum install maven -y
+  status_check $?
 
   app_prereq
   
   echo -e "${color} Clean package ${nocolor}"
   mvn clean package
-  
+  status_check $?
 
   echo -e "${color} Rename shipping.jar  ${nocolor}"
   mv target/shipping-1.0.jar shipping.jar 
+  status_check $?
 
   schema_setup
 
   systemd
 
+}
+
+pytho(){
+  echo -e "${color} Install python ${nocolor}"
+  yum install python36 gcc python3-devel -y
+  status_check $?
+
+  app_prereq
+
+  pip3.6 install -r requirements.txt
+  status_check $?
+  
+  systemd
+
+}
+
+golang()
+{
+  echo -e "${color} Install Golang ${nocolor}"
+  yum install golang -y  &>>${log_file}
+  status_check $?
+
+  app_prereq_setup &>>${log_file}
+  echo -e "${color} Download Dependencies ${nocolor}"
+  go mod init dispatch &>>${log_file}
+  status_check $?
+
+  go get &>>${log_file}
+  status_check $?
+
+  go build&>>${log_file}
+  status_check $?
+
+  systemd_setup
 }
