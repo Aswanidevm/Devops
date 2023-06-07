@@ -80,6 +80,16 @@ schema_setup(){
   mongo --host MONGODB-SERVER-IPADDRESS <path/schema/${component}.js &>> ${log_file}
   status_check $?
 
+  elif [ "${schema_type}" == "mysql" ]; then
+
+  echo -e "${color} Install mysql ${nocolor}"
+  yum install mysql -y 
+  status_check $?
+
+  echo -e "${color} updating schema ${nocolor}"
+  mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -p${mysql_root_password} < /app/schema/shipping.sql 
+  status_check $?
+
   fi
 }
 
@@ -103,3 +113,21 @@ nodejs() {
 }
 
 
+java(){
+  echo -e "${color} Instsll maven ${nocolor}"
+  yum install maven -y
+
+  app_prereq
+  
+  echo -e "${color} Clean package ${nocolor}"
+  mvn clean package
+  
+
+  echo -e "${color} Rename shipping.jar  ${nocolor}"
+  mv target/shipping-1.0.jar shipping.jar 
+
+  schema_setup
+
+  systemd
+
+}
