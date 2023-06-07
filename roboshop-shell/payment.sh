@@ -1,11 +1,10 @@
-yum install python36 gcc python3-devel -y
-useradd roboshop
-mkdir /app 
-curl -L -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment.zip 
-cd /app 
-unzip /tmp/payment.zip
-cd /app 
-pip3.6 install -r requirements.txt
-systemctl daemon-reload
-systemctl enable payment 
-systemctl start payment
+source common.sh
+component=payment
+roboshop_app_password=$1
+
+if [ -z "${roboshop_app_password}" ]; then
+  echo -e "\e[31mMissing roboshop_app_password argument\e[0m"
+  exit 1
+fi
+
+python
