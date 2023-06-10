@@ -1,23 +1,22 @@
 
+- name: Install Nginx
+  ansible.builtin.yum:
+    name: nginx
+    state: latest
 
-echo -e "${color} Install Nginx ${nocolor}"
-yum install nginx -y &>> ${log_file}
-status_check $?
+- name: Remove directory
+  ansible.builtin.file:
+    path: /usr/share/nginx/html/*
+    state: absent
 
-echo -e "${color} Removing files ${nocolor}"
-rm -rf /usr/share/nginx/html/* &>> ${log_file}
-status_check $?
 
-echo -e "${color} Downloding frontend content ${nocolor}"
-curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend.zip &>> ${log_file}
-status_check $?
+- name: Unarchive a file that needs to be downloaded (added in 2.0)
+  ansible.builtin.unarchive:
+    src: https://roboshop-artifacts.s3.amazonaws.com/frontend.zip
+    dest: /usr/share/nginx/html
+    remote_src: yes
 
-echo -e "${color} Exctacting frontend content ${nocolor}"
-cd /usr/share/nginx/html &>> ${log_file}
-status_check $?
 
-unzip /tmp/frontend.zip &>> ${log_file}
-status_check $?
 
 echo -e "${color} Enabling Nginx ${nocolor}"
 systemctl enable nginx &>> ${log_file}
