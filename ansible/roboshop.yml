@@ -6,9 +6,13 @@
 
 - name: Remove directory
   ansible.builtin.file:
-    path: /usr/share/nginx/html/*
+    path: /usr/share/nginx/html
     state: absent
 
+- name: Remove directory
+  ansible.builtin.file:
+    path: /usr/share/nginx/html
+    state: directory
 
 - name: Unarchive a file that needs to be downloaded (added in 2.0)
   ansible.builtin.unarchive:
@@ -16,13 +20,10 @@
     dest: /usr/share/nginx/html
     remote_src: yes
 
-
-
-echo -e "${color} Enabling Nginx ${nocolor}"
-systemctl enable nginx &>> ${log_file}
-systemctl start nginx &>> ${log_file}
-status_check $?
-
-echo -e "${color} Restart nginx ${nocolor}"
-systemctl restart nginx &>> ${log_file}
-status_check $?
+- name: Restart service cron on centos, in all cases, also issue daemon-reload to pick up config changes
+  ansible.builtin.systemd:
+    name: nginx
+    state: restarted
+    daemon_reload: true
+    enabled: true
+    masked: no
