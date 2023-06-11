@@ -20,6 +20,11 @@
     dest: /usr/share/nginx/html
     remote_src: yes
 
+- name: Create RoboShop Config in Nginx
+  ansible.builtin.template:
+    src: roboshop.conf
+    dest: /etc/nginx/default.d/roboshop.conf
+    
 - name: Restart service cron on centos, in all cases, also issue daemon-reload to pick up config changes
   ansible.builtin.systemd:
     name: nginx
