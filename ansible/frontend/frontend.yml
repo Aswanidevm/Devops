@@ -1,34 +1,37 @@
+- name: setup frontend
+  host: all
+  become: yes
+  tasks:
+    - name: Install Nginx
+      ansible.builtin.yum:
+        name: nginx
+        state: latest
 
-- name: Install Nginx
-  ansible.builtin.yum:
-    name: nginx
-    state: latest
+    - name: Remove directory
+      ansible.builtin.file:
+        path: /usr/share/nginx/html
+        state: absent
 
-- name: Remove directory
-  ansible.builtin.file:
-    path: /usr/share/nginx/html
-    state: absent
+    - name: Remove directory
+      ansible.builtin.file:
+        path: /usr/share/nginx/html
+        state: directory
 
-- name: Remove directory
-  ansible.builtin.file:
-    path: /usr/share/nginx/html
-    state: directory
+   - name: Unarchive a file that needs to be downloaded (added in 2.0)
+      ansible.builtin.unarchive:
+        src: https://roboshop-artifacts.s3.amazonaws.com/frontend.zip
+        dest: /usr/share/nginx/html
+        remote_src: yes
 
-- name: Unarchive a file that needs to be downloaded (added in 2.0)
-  ansible.builtin.unarchive:
-    src: https://roboshop-artifacts.s3.amazonaws.com/frontend.zip
-    dest: /usr/share/nginx/html
-    remote_src: yes
-
-- name: Create RoboShop Config in Nginx
-  ansible.builtin.template:
-    src: roboshop.conf
-    dest: /etc/nginx/default.d/roboshop.conf
+   - name: Create RoboShop Config in Nginx
+      ansible.builtin.template:
+        src: roboshop.conf
+        dest: /etc/nginx/default.d/roboshop.conf
     
-- name: Restart service cron on centos, in all cases, also issue daemon-reload to pick up config changes
-  ansible.builtin.systemd:
-    name: nginx
-    state: restarted
-    daemon_reload: true
-    enabled: true
-    masked: no
+   - name: Restart service cron on centos, in all cases, also issue daemon-reload to pick up config changes
+      ansible.builtin.systemd:
+        name: nginx
+        state: restarted
+        daemon_reload: true
+        enabled: true
+    
