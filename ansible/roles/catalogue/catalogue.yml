@@ -1,5 +1,2 @@
-- name: catalogue
-  host: all
-  become: yes
-  tasks:
-    
+component: catalogue
+schema_setup: mongo
