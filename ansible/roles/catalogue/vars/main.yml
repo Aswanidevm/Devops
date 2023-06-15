@@ -1,2 +1,2 @@
-source: common
 component: catalogue
+schema_type: mongo
