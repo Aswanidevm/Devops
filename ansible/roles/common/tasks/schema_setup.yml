@@ -1,0 +1,19 @@
+ if [ "${schema_type}" == "mongo" ]; then
+  cp ${code_dir}/config/mongo.repo /etc/yum.repos.d/mongo.repo &>> ${log_file}
+  status_check $?
+
+  yum install mongodb-org-shell -y &>> ${log_file}
+  status_check $?
+
+  mongo --host MONGODB-SERVER-IPADDRESS <path/schema/${component}.js &>> ${log_file}
+  status_check $?
+
+  elif [ "${schema_type}" == "mysql" ]; then
+
+  echo -e "${color} Install mysql ${nocolor}"
+  yum install mysql -y 
+  status_check $?
+
+  echo -e "${color} updating schema ${nocolor}"
+  mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -p${mysql_root_password} < /app/schema/shipping.sql 
+  status_check $?

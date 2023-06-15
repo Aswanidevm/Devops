@@ -15,7 +15,7 @@
 
 - name: Unarchive a file that needs to be downloaded (added in 2.0)
   ansible.builtin.unarchive:
-    src: https://roboshop-artifacts.s3.amazonaws.com/frontend.zip
+    src: https://roboshop-artifacts.s3.amazonaws.com/{{ component }}.zip
     dest: /usr/share/nginx/html
     remote_src: yes
 
