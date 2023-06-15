@@ -1,20 +1,20 @@
-- name: Create RoboShop Config in Nginx
+- name: copy mongo reppo
   ansible.builtin.template:
     src: mongo.repo
     dest: /etc/yum.repos.d/mongo.repo
 
-- name: Install Nginx
+- name: Install mongodb-org
   ansible.builtin.yum:
     name: mongodb-org
     state: latest
 
-- name: Explicitly specifying positional matched groups in replacement
+- name: change listen address
   ansible.builtin.replace:
     path: /etc/mongod.conf
     regexp: '127.0.0.1'
     replace: '0.0.0.0'
 
-- name: Restart service cron on centos, in all cases, also issue daemon-reload to pick up config changes
+- name: systemd settings
   ansible.builtin.systemd:
     name: mongod
     state: restarted
