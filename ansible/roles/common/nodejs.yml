@@ -1,0 +1,26 @@
+- name: NodeJs setup
+  ansible.builtin.shell: curl -sL https://rpm.nodesource.com/setup_lts.x | bash
+
+
+- name: Install Nodejs
+  ansible.builtin.yum:
+    name: NodeJs
+    state: latest
+
+- 
+
+
+
+
+
+
+
+  app_prereq
+
+   npm install  &>> ${log_file}
+   status_check $?
+
+  schema_setup
+
+  systemd
+}
