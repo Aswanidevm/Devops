@@ -1,0 +1,25 @@
+- name: NodeJs setup
+  ansible.builtin.shell: curl -sL https://rpm.nodesource.com/setup_lts.x | bash
+
+- name: Install Nodejs
+  ansible.builtin.yum:
+    name: nodeJs
+    state: latest
+
+- name: load NodeJs
+  ansible.builtin.import_tasks:
+    tasks_from: app-prereq.yml
+
+- name: NodeJs setup
+  ansible.builtin.shell: npm install
+  args:
+    chdir: /app
+
+- name: load NodeJs
+  ansible.builtin.import_tasks:
+    tasks_from: schema_setup.yml
+  
+- name: load NodeJs
+  ansible.builtin.import_tasks:
+    tasks_from: systemd.yml
+  

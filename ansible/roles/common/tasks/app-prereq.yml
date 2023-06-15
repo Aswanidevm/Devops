@@ -1,0 +1,19 @@
+- name: Add the user 'johnd' with a specific uid and a primary group of 'admin'
+  ansible.builtin.user:
+    name: johnd
+
+- name: Remove directory
+  ansible.builtin.file:
+    path: /app
+    state: absent
+
+- name: Remove directory
+  ansible.builtin.file:
+    path: /app
+    state: directory
+
+- name: Unarchive a file that needs to be downloaded (added in 2.0)
+  ansible.builtin.unarchive:
+    src: https://roboshop-artifacts.s3.amazonaws.com/{{ component }}.zip
+    dest: /usr/share/nginx/html
+    remote_src: yes
