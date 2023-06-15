@@ -1,4 +1,4 @@
 - name: load NodeJs
-      ansible.builtin.import_role:
-      name: common
-      tasks_from: nodejs.yml
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: nodejs.yml
