@@ -7,7 +7,7 @@ resource "aws_instance" "ec2" {
   instance_type = "t2.micro"
   vpc_security_group_ids = [aws_security_group.sg.id]
   tags = {
-    Name = "${name}"
+    Name = var.name
   }
 }
 
@@ -19,7 +19,7 @@ data "aws_ami" "ec2" {
 }
 
 resource "aws_security_group" "sg" {
-  name        = "allow_all"
+  name        = var.name
   description = "Allow all inbound traffic"
   vpc_id      = aws_vpc.main.id
 
@@ -41,6 +41,8 @@ resource "aws_security_group" "sg" {
   }
 
   tags = {
-    Name = "allow_all"
+    Name = var.name
   }
 }
+
+variable name{}
