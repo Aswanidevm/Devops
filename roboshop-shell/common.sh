@@ -80,7 +80,7 @@ schema_setup(){
   yum install mongodb-org-shell -y &>> ${log_file}
   status_check $?
 
-  mongo --host MONGODB-SERVER-IPADDRESS <${code_dir}/schema/${component}.js &>> ${log_file}
+  mongo --host mongodb-dev.myprojecdevops.info <${code_dir}/schema/${component}.js &>> ${log_file}
   status_check $?
 
   elif [ "${schema_type}" == "mysql" ]; then
@@ -90,7 +90,7 @@ schema_setup(){
   status_check $?
 
   echo -e "${color} updating schema ${nocolor}"
-  mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -p${mysql_root_password} < /app/schema/shipping.sql 
+  mysql -h <mysql-dev.myprojecdevops.info> -uroot -p${mysql_root_password} < /app/schema/shipping.sql 
   status_check $?
 
   fi
